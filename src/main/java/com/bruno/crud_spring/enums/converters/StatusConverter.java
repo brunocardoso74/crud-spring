@@ -2,16 +2,16 @@ package com.bruno.crud_spring.enums.converters;
 
 import java.util.stream.Stream;
 
-import com.bruno.crud_spring.enums.Category;
+import com.bruno.crud_spring.enums.Status;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class CategoryConverter implements AttributeConverter<Category, String> {
-
+public class StatusConverter implements AttributeConverter<Status, String> {
+    
     @Override
-    public String convertToDatabaseColumn(Category attribute) {
+    public String convertToDatabaseColumn(Status attribute) {
         if (attribute == null) {
             return null;
         }
@@ -19,12 +19,12 @@ public class CategoryConverter implements AttributeConverter<Category, String> {
     }
 
     @Override
-    public Category convertToEntityAttribute(String dbData) {
+    public Status convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         } 
 
-        return Stream.of(Category.values())
+        return Stream.of(Status.values())
             .filter(c -> c.getValue().equals(dbData))
             .findFirst()
             .orElseThrow(IllegalArgumentException::new);

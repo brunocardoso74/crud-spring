@@ -4,10 +4,11 @@ import org.hibernate.validator.constraints.Length;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
 
 import com.bruno.crud_spring.enums.Category;
+import com.bruno.crud_spring.enums.Status;
 import com.bruno.crud_spring.enums.converters.CategoryConverter;
+import com.bruno.crud_spring.enums.converters.StatusConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -16,15 +17,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
 import jakarta.validation.constraints.*;
 
 
-@Data
+
 @Entity
 //@Table(name = "cursos")
 @SQLDelete(sql = "UPDATE Course SET status = 'Inativo' WHERE id = ?")
-@SQLRestriction("status <> 'Inactive'")
+@SQLRestriction("status <> 'Inativo'")
 public class Course {
 
     @Id 
@@ -40,14 +40,46 @@ public class Course {
     private String name;
 
     @NotNull
-    @Length(max = 10)
     @Column(length = 10, nullable = false)
     @Convert(converter = CategoryConverter.class)
     private Category category;
     
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 10, nullable = false)
-    private String status = "Ativo";
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    
 }
