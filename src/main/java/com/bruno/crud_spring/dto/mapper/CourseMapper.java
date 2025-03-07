@@ -10,7 +10,9 @@ import com.bruno.crud_spring.model.Course;
 public class CourseMapper {
 
     public CourseDTO toDTO(Course course) {
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(),
+                course.getLessons()
+        );
     }
 
     public Course toModel(CourseDTO courseDTO) {
