@@ -1,8 +1,12 @@
 package com.bruno.crud_spring.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.bruno.crud_spring.dto.CourseDTO;
+import com.bruno.crud_spring.dto.LessonDTO;
 import com.bruno.crud_spring.enums.Category;
 import com.bruno.crud_spring.model.Course;
 
@@ -10,9 +14,17 @@ import com.bruno.crud_spring.model.Course;
 public class CourseMapper {
 
     public CourseDTO toDTO(Course course) {
+        if (course == null) {
+            return null;
+        }
+
+        List<LessonDTO> lessonDTOList = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeLink()))
+                .collect(Collectors.toList());
+
         return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(),
-                course.getLessons()
-        );
+                lessonDTOList);
     }
 
     public Course toModel(CourseDTO courseDTO) {
