@@ -24,7 +24,7 @@ public class Lesson {
     private String name;
 
     @Column(length = 110, nullable = false)
-    private String youtubeLink;
+    private String youtubeUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
