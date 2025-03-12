@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import com.bruno.crud_spring.dto.CourseDTO;
 import com.bruno.crud_spring.dto.mapper.CourseMapper;
 import com.bruno.crud_spring.exception.RecordNotFoundException;
+import com.bruno.crud_spring.model.Course;
 import com.bruno.crud_spring.repository.CourseRepository;
 
 import jakarta.validation.Valid;
@@ -41,15 +42,22 @@ public class CourseService {
             .orElseThrow( () -> new RecordNotFoundException(id) );
     }
 
-    public CourseDTO create(@Valid @NotNull CourseDTO course) {
-        return courseMapper.toDTO(courseRepository.save(courseMapper.toModel(course)));
+    public CourseDTO create(@Valid @NotNull CourseDTO courseDTO) {
+        return courseMapper.toDTO(courseRepository.save(courseMapper.toModel(courseDTO)));
     }
 
-    public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO course) {
+    public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO courseDTO) {
         return courseRepository.findById(id)
             .map(recordFound -> {
-                recordFound.setName(course.name());
-                recordFound.setCategory(this.courseMapper.toCategory(course.category()));
+                Course course = courseMapper.toModel(courseDTO);
+
+                recordFound.setName(courseDTO.name());
+                recordFound.setCategory(this.courseMapper.toCategory(courseDTO.category()));
+                //recordFound.setLessons(course.getLessons());
+
+                recordFound.getLessons().clear();
+                course.getLessons().forEach(recordFound.getLessons()::add);
+
                 return courseMapper.toDTO(courseRepository.save(recordFound));
             }).orElseThrow( () -> new RecordNotFoundException(id) );
     }
