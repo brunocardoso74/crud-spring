@@ -23,24 +23,26 @@ public class CrudSpringApplication {
 		return args -> {
 			courseRepository.deleteAll();
 
-			Course c = new Course();
-			c.setName("Angular com Spring");
-			c.setCategory(Category.FRONTEND);
-			c.setStatus(Status.ACTIVE);
-
-			Lesson l1 = new Lesson();
-			l1.setName("Introdução");
-			l1.setYoutubeUrl("3q4m4iZMm1Y");
-			l1.setCourse(c);
-			c.getLessons().add(l1);
-
-			Lesson l2 = new Lesson();
-			l2.setName("Angular");
-			l2.setYoutubeUrl("3q4m4iZMm1Y");
-			l2.setCourse(c);
-			c.getLessons().add(l2);
+			for (int i = 0; i < 20; i++) {
+				Course c = new Course();
+				c.setName("Angular com Spring " + i);
+				c.setCategory(Category.FRONTEND);
+				c.setStatus(Status.ACTIVE);
+	
+				Lesson l1 = new Lesson();
+				l1.setName("Introdução");
+				l1.setYoutubeUrl("3q4m4iZMm1Y");
+				l1.setCourse(c);
+				c.getLessons().add(l1);
+	
+				Lesson l2 = new Lesson();
+				l2.setName("Angular");
+				l2.setYoutubeUrl("3q4m4iZMm1Y");
+				l2.setCourse(c);
+				c.getLessons().add(l2);
 			
-			courseRepository.save(c);
+				courseRepository.save(c);
+			}
 		};
 	}
 
